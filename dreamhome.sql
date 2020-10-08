@@ -114,3 +114,15 @@ INSERT INTO registration VALUES('CR76','B005','SL41','2015-01-13');
 INSERT INTO registration VALUES('CR56','B003','SG37','2014-04-13');
 INSERT INTO registration VALUES('CR74','B003','SG37','2013-11-16');
 INSERT INTO registration VALUES('CR62','B007','SA9','2014-03-07');
+
+SELECT s.staffNo, fName, lName, COUNT(*) AS propCount
+FROM Staff s, PropertyFprRent p
+WHERE s.staffNo = p.staffNo
+GROUP BY s.staffNo, fName, lName
+UNION
+SELECT s.staffNo, fName, lName, 0
+FROM Staff s
+WHERE NOT EXIST
+(SELECT(1)
+ FROM PropertyForRent p
+ WHERE p.staffNo = s.staffNo);
